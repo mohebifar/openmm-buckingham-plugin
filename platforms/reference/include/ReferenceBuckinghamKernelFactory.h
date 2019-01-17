@@ -33,7 +33,6 @@
  * -------------------------------------------------------------------------- */
 
 #include "openmm/KernelFactory.h"
-#include "ReferenceNeighborList.h"
 
 namespace OpenMM {
 
@@ -44,8 +43,6 @@ namespace OpenMM {
 class ReferenceBuckinghamKernelFactory : public KernelFactory {
 public:
     KernelImpl* createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const;
-private:
-    NeighborList* neighborList;
 };
 
 } // namespace OpenMM

@@ -33,11 +33,12 @@
  * -------------------------------------------------------------------------- */
 
 #include "BuckinghamKernels.h"
+#include "openmm/reference/ReferenceNeighborList.h"
+#include "openmm/reference/ReferenceForce.h"
 #include "openmm/Platform.h"
 #include <vector>
 
 namespace BuckinghamPlugin {
-
 /**
  * This kernel is invoked by BuckinghamForce to calculate the forces acting on the system and the energy of the system.
  */
@@ -45,6 +46,7 @@ class ReferenceCalcBuckinghamForceKernel : public CalcBuckinghamForceKernel {
 public:
     ReferenceCalcBuckinghamForceKernel(std::string name, const OpenMM::Platform& platform) : CalcBuckinghamForceKernel(name, platform) {
     }
+    ~ReferenceCalcBuckinghamForceKernel();
     /**
      * Initialize the kernel.
      * 
@@ -71,7 +73,10 @@ public:
 private:
     int numParticles;
     bool usePeriodic;
+    double cutoff;
     std::vector<double> a, b, c6, c8, c10, gamma;
+    std::vector< std::set<int> > exclusions;
+    OpenMM::NeighborList* neighborList;
 };
 
 } // namespace BuckinghamPlugin
