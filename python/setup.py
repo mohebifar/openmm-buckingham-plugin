@@ -16,11 +16,12 @@ if platform.system() == 'Darwin':
     extra_compile_args += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
     extra_link_args += ['-stdlib=libc++', '-mmacosx-version-min=10.7', '-Wl', '-rpath', openmm_dir+'/lib']
 
-extension = Extension(name='_buckingham',
+extension = Extension(name='_buckinghamplugin',
                       sources=['BuckinghamPluginWrapper.cpp'],
                       libraries=['OpenMM', 'BuckinghamPlugin'],
                       include_dirs=[os.path.join(openmm_dir, 'include'), buckinghamplugin_header_dir],
                       library_dirs=[os.path.join(openmm_dir, 'lib'), buckinghamplugin_library_dir],
+                      runtime_library_dirs=[os.path.join(openmm_dir, 'lib')],
                       extra_compile_args=extra_compile_args,
                       extra_link_args=extra_link_args
                      )
