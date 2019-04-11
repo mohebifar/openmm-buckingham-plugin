@@ -35,6 +35,7 @@
 #include "openmm/internal/ContextImpl.h"
 #include "openmm/reference/RealVec.h"
 #include "openmm/reference/ReferencePlatform.h"
+#include <iostream>
 
 using namespace BuckinghamPlugin;
 using namespace OpenMM;
@@ -71,6 +72,7 @@ void ReferenceCalcBuckinghamForceKernel::initialize(const System& system, const 
     c8.resize(numParticles);
     c10.resize(numParticles);
     gamma.resize(numParticles);
+    exclusions.resize(numParticles);
     for (int i = 0; i < numParticles; i++)
         force.getParticleParameters(i, a[i], b[i], c6[i], c8[i], c10[i], gamma[i]);
     usePeriodic = force.usesPeriodicBoundaryConditions();
@@ -83,6 +85,8 @@ double ReferenceCalcBuckinghamForceKernel::execute(ContextImpl& context, bool in
     vector<RealVec>& forces = extractForces(context);
     RealVec* boxVectors = extractBoxVectors(context);
 
+    cout << "asdasd" << pos[1] << endl;
+    cout << "asdasd" << boxVectors[1] << endl;
     computeNeighborListVoxelHash(*neighborList, numParticles, pos, exclusions, boxVectors, usePeriodic, cutoff, 0.0);
 
     double energy = 0.0;
@@ -94,6 +98,7 @@ double ReferenceCalcBuckinghamForceKernel::execute(ContextImpl& context, bool in
         }
 
         OpenMM::NeighborList nl = *neighborList;
+        cout << "PERIODIC -> " << endl;
         for (unsigned int ii = 0; ii < nl.size(); ii++) {
             OpenMM::AtomPair pair = nl[ii];
             int siteI = pair.first;

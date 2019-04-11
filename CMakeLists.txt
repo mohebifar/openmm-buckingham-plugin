@@ -77,7 +77,7 @@ INSTALL (FILES ${API_ONLY_INCLUDE_FILES_INTERNAL} DESTINATION include/internal)
 # Enable testing
 
 # TODO: Enable Testing
-# ENABLE_TESTING()
+ENABLE_TESTING()
 # ADD_SUBDIRECTORY(serialization/tests)
 
 # Build the implementations for different platforms
